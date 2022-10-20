@@ -7,7 +7,7 @@ import renderWithRouter from '../renderWithRouter';
 
 describe('5- Teste o componente <Pokedex />', () => {
   it('Verifique se a página contém um heading h2 com o texto Encountered pokémons', () => {
-    const isPokemonFavoriteById = [];
+    const isPokemonFavoriteById = {};
     renderWithRouter(
       <Pokedex
         pokemons={ pokemons }
@@ -20,7 +20,7 @@ describe('5- Teste o componente <Pokedex />', () => {
   });
 
   it('Verifique se é exibido o próximo pokémon da lista quando o botão Próximo pokémon é clicado', () => {
-    const isPokemonFavoriteById = [];
+    const isPokemonFavoriteById = {};
     renderWithRouter(
       <Pokedex
         pokemons={ pokemons }
@@ -42,13 +42,16 @@ describe('5- Teste o componente <Pokedex />', () => {
   });
 
   it('Verifique se é mostrado apenas um pokémon por vez', () => {
-    const isPokemonFavoriteById = [];
+    const isPokemonFavoriteById = {};
     renderWithRouter(
       <Pokedex
         pokemons={ pokemons }
         isPokemonFavoriteById={ isPokemonFavoriteById }
       />,
     );
+
+    const poke = screen.getAllByText(pokemons[0].name);
+    expect(poke).toHaveLength(1);
 
     const poke1 = screen.getByText(pokemons[0].name);
     expect(poke1).toBeInTheDocument();
@@ -58,7 +61,8 @@ describe('5- Teste o componente <Pokedex />', () => {
   });
 
   it('Verifique se a Pokédex tem os botões de filtro', () => {
-    const isPokemonFavoriteById = [];
+    // melhorar!
+    const isPokemonFavoriteById = {};
     renderWithRouter(
       <Pokedex
         pokemons={ pokemons }
@@ -91,7 +95,8 @@ describe('5- Teste o componente <Pokedex />', () => {
   });
 
   it('Verifique se a Pokédex contém um botão para resetar o filtro', () => {
-    const isPokemonFavoriteById = [];
+    // melhorar!
+    const isPokemonFavoriteById = {};
     renderWithRouter(
       <Pokedex
         pokemons={ pokemons }
@@ -103,11 +108,7 @@ describe('5- Teste o componente <Pokedex />', () => {
     expect(btnAll).toBeInTheDocument();
     userEvent.click(btnAll);
 
-    const pokeType3 = screen.getByTestId('pokemon-type');
-    expect(pokeType3).toHaveTextContent('Electric');
-
-  //   // O texto do botão deve ser All;
-  //   // A Pokedéx deverá mostrar os pokémons normalmente(sem filtros) quando o botão All for clicado;
-  //   // Ao carregar a página, o filtro selecionado deverá ser All.
+    const pokeType = screen.getByTestId('pokemon-type');
+    expect(pokeType).toHaveTextContent('Electric');
   });
 });
