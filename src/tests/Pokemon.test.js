@@ -6,14 +6,15 @@ import App from '../App';
 import renderWithRouter from '../renderWithRouter';
 import pokemons from '../data';
 
+const pokemon = pokemons[0];
+
 describe('6 - Teste o componente <Pokemon />', () => {
   it('Verifique se é renderizado um card com as informações de determinado pokémon: nome, tipo, peso médio e imagem.', () => {
-    const pokemon = pokemons[0];
     renderWithRouter(
       <Pokemon
         pokemon={ pokemon }
         showDetailsLink
-        isFavorite={ false }
+        isFavorite
       />,
     );
     const pokemonName = screen.getByTestId('pokemon-name');
@@ -25,18 +26,14 @@ describe('6 - Teste o componente <Pokemon />', () => {
     const pokemonWeight = screen.getByTestId('pokemon-weight');
     expect(pokemonWeight).toHaveTextContent('Average weight: 6.0 kg');
 
-    const pokemonImg = screen.getByRole('img');
+    const pokemonImg = screen.getByAltText('Pikachu sprite');
     expect(pokemonImg).toHaveAttribute('src', 'https://cdn2.bulbagarden.net/upload/b/b2/Spr_5b_025_m.png');
-    expect(pokemonImg).toHaveAttribute('alt', 'Pikachu sprite');
   });
 
   it('Verifique se o card do pokémon indicado na Pokédex contém um link de navegação para exibir detalhes deste pokémon', () => {
-    const isPokemonFavoriteById = {};
-    const pokemon = pokemons[0];
     const { history } = renderWithRouter(
-      <App // App -> Pokedex
+      <App // App -> Pokedex -> PokemonCard contém link details.
         pokemons={ pokemon }
-        isPokemonFavoriteById={ isPokemonFavoriteById }
       />,
     );
     // O link deve possuir a URL /pokemons/<id>, onde <id> é o id do pokémon exibido;
@@ -54,18 +51,17 @@ describe('6 - Teste o componente <Pokemon />', () => {
   });
 
   it('Verifique se existe um ícone de estrela nos pokémons favoritados', () => {
-    const pokemon = pokemons[0];
     renderWithRouter(
       <Pokemon
         pokemon={ pokemon }
         isFavorite
       />,
     );
-    const pokeImgs = screen.getAllByRole('img');
-    expect(pokeImgs).toHaveLength(2);
-    // ◦ O ícone deve ser uma imagem com o atributo src contendo o caminho / star - icon.svg;
-    expect(pokeImgs[1]).toHaveAttribute('src', '/star-icon.svg');
-    // ◦ A imagem deve ter o  alt igual a < pokemon > is marked as favorite, onde < pokemon > é o nome do pokémon exibido.
-    expect(pokeImgs[1]).toHaveAttribute('alt', 'Pikachu is marked as favorite');
+    // A imagem deve ter o  alt igual a < pokemon > is marked as favorite, onde < pokemon > é o nome do pokémon exibido.
+    // O ícone deve ser uma imagem com o atributo src contendo o caminho / star - icon.svg;
+    const pokeImgFave = screen.getByAltText('Pikachu is marked as favorite');
+    expect(pokeImgFave).toBeInTheDocument();
+    expect(pokeImgFave).toBeEmptyDOMElement('img');
+    expect(pokeImgFave).toHaveAttribute('src', '/star-icon.svg');
   });
 });
