@@ -61,7 +61,7 @@ describe('5- Teste o componente <Pokedex />', () => {
   });
 
   it('Verifique se a Pokédex tem os botões de filtro', () => {
-    // melhorar!
+    // melhorar?
     const isPokemonFavoriteById = {};
     renderWithRouter(
       <Pokedex
@@ -95,7 +95,7 @@ describe('5- Teste o componente <Pokedex />', () => {
   });
 
   it('Verifique se a Pokédex contém um botão para resetar o filtro', () => {
-    // melhorar!
+    // melhorar!?
     const isPokemonFavoriteById = {};
     renderWithRouter(
       <Pokedex
